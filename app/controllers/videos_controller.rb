@@ -20,6 +20,17 @@ class VideosController < ApplicationController
      end
    end
 
+   def update
+    @video = Video.find(params[:id])
+
+    if @video.update(video_params)
+      head :no_content
+    else
+      render json: @video.errors, status: :unprocessable_entity
+    end
+  end
+
+
 
 
    private

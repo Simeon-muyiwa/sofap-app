@@ -74,4 +74,21 @@ require 'rails_helper'
 			end
 		end
 
+		describe "existing Foo" do
+			let(:video) { create(:video) }
+            let(:new_video_ui) { "testing" }
+
+            it "can update video_uid" do
+           #verify name is not yet the new name
+           expect(video.video_uid).to_not eq(new_video_ui)
+
+            # change to the new name
+           put video_path(video.id), params: {video: {video_uid: new_video_ui}}
+           expect(response).to have_http_status(:no_content)
+
+          # verify we can locate the created instance in DB
+           expect(Video.find(video.id).video_uid).to eq(new_video_ui)
+         end
+		end
+
  end
