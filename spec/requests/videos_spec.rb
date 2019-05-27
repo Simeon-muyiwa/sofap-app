@@ -38,17 +38,17 @@ require 'rails_helper'
 				expect(payload["song"]).to eq(video.song)
 			end
 
-			# it "returns not found when using incorrect ID" do
-   #            get video_path(bad_id)
+			it "returns not found when using incorrect ID" do
+              get video_path(bad_id)
               
-   #            expect(response).to have_http_status(:not_found)
-   #            expect(response.content_type).to eq("application/json") 
+              expect(response).to have_http_status(:not_found)
+              expect(response.content_type).to eq("application/json") 
 
-   #            payload= JSON.parse(response.body)
-   #            expect(payload).to have_key("errors")
-   #            expect(payload["errors"]).to have_key("full_messages")
-   #            expect(payload["errors"]["full_messages"][0]).to include("cannot","#{bad_id}")
-   #          end
+              payload= JSON.parse(response.body)
+              expect(payload).to have_key("errors")
+              expect(payload["errors"]).to have_key("full_messages")
+              expect(payload["errors"]["full_messages"][0]).to include("cannot","#{bad_id}")
+            end
 		end
 
  end
