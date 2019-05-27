@@ -30,7 +30,7 @@ require 'rails_helper'
 				expect(response).to have_http_status(:ok)
 
 				payload= JSON.parse(response.body)
-				# pp payload
+				
 
 				expect(payload).to have_key("video_uid")
                 expect(payload).to have_key("song")
@@ -58,7 +58,7 @@ require 'rails_helper'
 			 post videos_path, params: {video: {video_uid:"ghdggdhjd", song: "my video- 7"}}
 			
 			 payload=JSON.parse(response.body)
-			 pp payload
+			 
 			 expect(response).to have_http_status(:created)
              expect(response.content_type).to eq("application/json")
 
@@ -89,6 +89,17 @@ require 'rails_helper'
           # verify we can locate the created instance in DB
            expect(Video.find(video.id).video_uid).to eq(new_video_ui)
          end
-		end
+
+         it "can be deleted" do
+          head video_path(video.id)
+          expect(response).to have_http_status(:ok)
+
+          delete video_path(video.id)
+          expect(response).to have_http_status(:no_content)
+
+          head video_path(video.id)
+          expect(response).to have_http_status(:not_found)
+        end
+	 end
 
  end

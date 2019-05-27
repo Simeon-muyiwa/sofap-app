@@ -30,6 +30,13 @@ class VideosController < ApplicationController
     end
   end
 
+  def destroy
+    @video.destroy
+
+    head :no_content
+  end
+
+
 
 
 
