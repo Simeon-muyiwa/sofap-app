@@ -51,4 +51,27 @@ require 'rails_helper'
             end
 		end
 
+		describe "create a new Video" do 
+			let(:video) { attributes_for(:video)}
+
+			it "can create a video when provided with song" do
+			 post videos_path, params: {video: {video_uid:"ghdggdhjd", song: "my video- 7"}}
+			
+			 payload=JSON.parse(response.body)
+			 pp payload
+			 expect(response).to have_http_status(:created)
+             expect(response.content_type).to eq("application/json")
+
+             #check the payload of the response
+              expect(payload).to have_key("video_uid")
+              expect(payload).to have_key("song")
+              expect(payload["song"]).to eq(video[:song])
+              id=payload["id"]
+
+              # verify we can locate the created instance in DB
+              expect(Video.find(id).song).to eq(video[:song])
+              
+			end
+		end
+
  end
