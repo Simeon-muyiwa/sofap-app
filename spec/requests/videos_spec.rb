@@ -7,11 +7,17 @@ require 'rails_helper'
 
  	    let!(:videos) { (1..5).map {|idx| create(:video)}}
 
- 	     it "returns all the instances" do
+ 	    it "returns all the instances" do
  	     	get videos_path
  	     	expect(request.method). to eq("GET")
- 	     end
+ 	     	expect(response). to have_http_status(:ok)
+			expect(response.content_type).to eq('application/json')
 
- 	end
+			payload= JSON.parse(response.body)
+
+			expect(payload.count).to eq(videos.count)
+
+ 	    end
+ 	 end
 
  end
